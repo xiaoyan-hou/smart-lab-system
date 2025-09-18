@@ -1,0 +1,5 @@
+export { default as Dashboard } from './Dashboard'
+export { default as CourseSchedule } from './CourseSchedule'
+export { default as CourseManagement } from './CourseManagement'
+export { default as LabManagement } from './LabManagement'
+export { default as EquipmentManagement } from './EquipmentManagement'

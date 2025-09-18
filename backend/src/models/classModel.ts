@@ -28,60 +28,64 @@ export interface UpdateClassData {
   department?: string
   student_count?: number
   year?: number
+  class_number?: string
+  head_teacher?: string
+  description?: string
+  status?: string
 }
 
 export const createClass = async (classData: CreateClassData): Promise<number> => {
   const { class_id, name, major, department, student_count, year } = classData
   
-  const result = await query<OkPacket>(
+  const result = await query(
     `INSERT INTO classes (class_id, name, major, department, student_count, year) 
      VALUES (?, ?, ?, ?, ?, ?)`,
     [class_id, name, major, department, student_count, year]
-  )
+  ) as OkPacket
   
   return result.insertId
 }
 
 export const getAllClasses = async (): Promise<Class[]> => {
-  const results = await query<RowDataPacket[]>(
+  const results = await query(
     'SELECT * FROM classes ORDER BY created_at DESC'
-  )
+  ) as RowDataPacket[]
   
   return results as Class[]
 }
 
 export const getClassById = async (id: number): Promise<Class | null> => {
-  const results = await query<RowDataPacket[]>(
+  const results = await query(
     'SELECT * FROM classes WHERE id = ?',
     [id]
-  )
+  ) as RowDataPacket[]
   
   return results.length > 0 ? (results[0] as Class) : null
 }
 
 export const getClassByClassId = async (class_id: string): Promise<Class | null> => {
-  const results = await query<RowDataPacket[]>(
+  const results = await query(
     'SELECT * FROM classes WHERE class_id = ?',
     [class_id]
-  )
+  ) as RowDataPacket[]
   
   return results.length > 0 ? (results[0] as Class) : null
 }
 
 export const getClassesByDepartment = async (department: string): Promise<Class[]> => {
-  const results = await query<RowDataPacket[]>(
+  const results = await query(
     'SELECT * FROM classes WHERE department = ? ORDER BY class_id',
     [department]
-  )
+  ) as RowDataPacket[]
   
   return results as Class[]
 }
 
 export const getClassesByYear = async (year: number): Promise<Class[]> => {
-  const results = await query<RowDataPacket[]>(
+  const results = await query(
     'SELECT * FROM classes WHERE year = ? ORDER BY class_id',
     [year]
-  )
+  ) as RowDataPacket[]
   
   return results as Class[]
 }
@@ -103,10 +107,10 @@ export const updateClass = async (id: number, classData: UpdateClassData): Promi
   
   values.push(id)
   
-  const result = await query<OkPacket>(
+  const result = await query(
     `UPDATE classes SET ${fields.join(', ')} WHERE id = ?`,
     values
-  )
+  ) as OkPacket
   
   return result.affectedRows > 0
 }

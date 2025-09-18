@@ -28,13 +28,15 @@ export const createEquipment = async (req: Request, res: Response) => {
       specifications: req.body.specifications
     }
 
-    // 检查设备序列号是否已存在
-    const existingEquipment = await equipmentModel.getEquipmentBySerialNumber(equipmentData.serial_number)
-    if (existingEquipment) {
-      return res.status(409).json({
-        success: false,
-        message: '设备序列号已存在'
-      })
+    // 检查设备序列号是否已存在（如果提供了序列号）
+    if (equipmentData.serial_number) {
+      const existingEquipment = await equipmentModel.getEquipmentBySerialNumber(equipmentData.serial_number)
+      if (existingEquipment) {
+        return res.status(409).json({
+          success: false,
+          message: '设备序列号已存在'
+        })
+      }
     }
 
     const equipmentId = await equipmentModel.createEquipment(equipmentData)

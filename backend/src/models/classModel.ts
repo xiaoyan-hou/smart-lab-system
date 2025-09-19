@@ -18,7 +18,8 @@ export interface CreateClassData {
   major?: string
   department?: string
   student_count?: number
-  year?: number
+  year?: number,
+  grade?: string,
 }
 
 export interface UpdateClassData {
@@ -31,7 +32,8 @@ export interface UpdateClassData {
   class_number?: string
   head_teacher?: string
   description?: string
-  status?: string
+  status?: string,
+  grade?: string,
 }
 
 export const createClass = async (classData: CreateClassData): Promise<number> => {
@@ -115,49 +117,49 @@ export const updateClass = async (id: number, classData: UpdateClassData): Promi
   return result.affectedRows > 0
 }
 
-export const deleteClass = async (id: number): Promise<boolean> => {
-  const result = await query<OkPacket>(
-    'DELETE FROM classes WHERE id = ?',
-    [id]
-  )
+// export const deleteClass = async (id: number): Promise<boolean> => {
+//   const result = await query<>(
+//     'DELETE FROM classes WHERE id = ?',
+//     [id]
+//   )
   
-  return result.affectedRows > 0
-}
+//   return result.affectedRows > 0
+// }
 
-export const searchClasses = async (keyword: string): Promise<Class[]> => {
-  const results = await query<RowDataPacket[]>(
-    `SELECT * FROM classes 
-     WHERE class_id LIKE ? OR name LIKE ? OR major LIKE ? OR department LIKE ?
-     ORDER BY created_at DESC`,
-    [`%${keyword}%`, `%${keyword}%`, `%${keyword}%`, `%${keyword}%`]
-  )
+// export const searchClasses = async (keyword: string): Promise<Class[]> => {
+//   const results = await query<RowDataPacket[]>(
+//     `SELECT * FROM classes 
+//      WHERE class_id LIKE ? OR name LIKE ? OR major LIKE ? OR department LIKE ?
+//      ORDER BY created_at DESC`,
+//     [`%${keyword}%`, `%${keyword}%`, `%${keyword}%`, `%${keyword}%`]
+//   )
   
-  return results as Class[]
-}
+//   return results as Class[]
+// }
 
-export const getClassStats = async (): Promise<{
-  totalClasses: number
-  totalStudents: number
-  departmentStats: Array<{department: string, count: number, totalStudents: number}>
-}> => {
-  const [totalResult] = await query<RowDataPacket[]>(
-    'SELECT COUNT(*) as total, COALESCE(SUM(student_count), 0) as totalStudents FROM classes'
-  )
+// export const getClassStats = async (): Promise<{
+//   totalClasses: number
+//   totalStudents: number
+//   departmentStats: Array<{department: string, count: number, totalStudents: number}>
+// }> => {
+//   const [totalResult] = await query<RowDataPacket[]>(
+//     'SELECT COUNT(*) as total, COALESCE(SUM(student_count), 0) as totalStudents FROM classes'
+//   )
   
-  const deptStats = await query<RowDataPacket[]>(
-    `SELECT 
-       department, 
-       COUNT(*) as count,
-       COALESCE(SUM(student_count), 0) as totalStudents
-     FROM classes 
-     WHERE department IS NOT NULL 
-     GROUP BY department 
-     ORDER BY count DESC`
-  )
+//   const deptStats = await query<RowDataPacket[]>(
+//     `SELECT 
+//        department, 
+//        COUNT(*) as count,
+//        COALESCE(SUM(student_count), 0) as totalStudents
+//      FROM classes 
+//      WHERE department IS NOT NULL 
+//      GROUP BY department 
+//      ORDER BY count DESC`
+//   )
   
-  return {
-    totalClasses: totalResult[0].total,
-    totalStudents: totalResult[0].totalStudents,
-    departmentStats: deptStats as Array<{department: string, count: number, totalStudents: number}>
-  }
-}
+//   return {
+//     totalClasses: totalResult[0].total,
+//     totalStudents: totalResult[0].totalStudents,
+//     departmentStats: deptStats as Array<{department: string, count: number, totalStudents: number}>
+//   }
+// }

@@ -8,6 +8,8 @@ import CourseSchedule from './pages/CourseSchedule'
 import CourseManagement from './pages/CourseManagement'
 import LabManagement from './pages/LabManagement'
 import EquipmentManagement from './pages/EquipmentManagement'
+import BuildingManagement from './pages/BuildingManagement'
+import LabRoomManagement from './pages/LabRoomManagement'
 import './App.css'
 
 const App: React.FC = () => {
@@ -18,8 +20,10 @@ const App: React.FC = () => {
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/course-schedule" element={<CourseSchedule />} />
+            <Route path="/building-management" element={<BuildingManagement />} />
+            <Route path="/lab-room-management" element={<LabRoomManagement />} />
             <Route path="/course-management" element={<CourseManagement />} />
+            <Route path="/course-schedule" element={<CourseSchedule />} />
             <Route path="/lab-management" element={<LabManagement />} />
             <Route path="/equipment-management" element={<EquipmentManagement />} />
           </Routes>

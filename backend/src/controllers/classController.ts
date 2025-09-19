@@ -15,29 +15,30 @@ export const createClass = async (req: Request, res: Response) => {
     }
 
     const classData: CreateClassData = {
+      class_id: req.body.class_id,
       name: req.body.name,
       department: req.body.department,
       major: req.body.major,
       grade: req.body.grade,
-      class_number: req.body.class_number,
+      // class_number: req.body.class_number,
       student_count: req.body.student_count,
-      head_teacher: req.body.head_teacher,
-      description: req.body.description,
-      status: req.body.status || 'active'
+      // head_teacher: req.body.head_teacher,
+      // description: req.body.description,
+      // status: req.body.status || 'active'
     }
 
     // 检查班级是否已存在（同专业同年级的班级号不能重复）
-    const existingClass = await classModel.getClassByUniqueKey(
-      classData.major,
-      classData.grade,
-      classData.class_number
-    )
-    if (existingClass) {
-      return res.status(409).json({
-        success: false,
-        message: '该班级已存在'
-      })
-    }
+    // const existingClass = await classModel.getClassByUniqueKey(
+    //   classData.major,
+    //   classData.grade,
+    //   // classData.class_number
+    // )
+    // if (existingClass) {
+    //   return res.status(409).json({
+    //     success: false,
+    //     message: '该班级已存在'
+    //   })
+    // }
 
     const classId = await classModel.createClass(classData)
     const newClass = await classModel.getClassById(classId)
@@ -61,17 +62,17 @@ export const getAllClasses = async (req: Request, res: Response) => {
   try {
     const { department, major, grade, status } = req.query
     
-    let classes
-    if (department || major || grade || status) {
-      classes = await classModel.getClassesByFilter({
-        department: department as string,
-        major: major as string,
-        grade: grade as string,
-        status: status as string
-      })
-    } else {
-      classes = await classModel.getAllClasses()
-    }
+    let classes = await classModel.getAllClasses();
+    // if (department || major || grade || status) {
+    //   classes = await classModel.getClassesByFilter({
+    //     department: department as string,
+    //     major: major as string,
+    //     grade: grade as string,
+    //     status: status as string
+    //   })
+    // } else {
+    //   classes = await classModel.getAllClasses()
+    // }
     
     res.json({
       success: true,
@@ -211,14 +212,14 @@ export const deleteClass = async (req: Request, res: Response) => {
       })
     }
 
-    const deleted = await classModel.deleteClass(classId)
+    // const deleted = await classModel.deleteClass(classId)
     
-    if (!deleted) {
-      return res.status(400).json({
-        success: false,
-        message: '班级删除失败'
-      })
-    }
+    // if (!deleted) {
+    //   return res.status(400).json({
+    //     success: false,
+    //     message: '班级删除失败'
+    //   })
+    // }
 
     res.json({
       success: true,
@@ -234,21 +235,21 @@ export const deleteClass = async (req: Request, res: Response) => {
   }
 }
 
-export const getClassStats = async (req: Request, res: Response) => {
-  try {
-    const stats = await classModel.getClassStats()
+// export const getClassStats = async (req: Request, res: Response) => {
+//   try {
+//     const stats = await classModel.getClassStats()
     
-    res.json({
-      success: true,
-      message: '班级统计信息获取成功',
-      data: stats
-    })
-  } catch (error) {
-    console.error('获取班级统计失败:', error)
-    res.status(500).json({
-      success: false,
-      message: '获取班级统计失败',
-      error: error instanceof Error ? error.message : '未知错误'
-    })
-  }
-}
+//     res.json({
+//       success: true,
+//       message: '班级统计信息获取成功',
+//       data: stats
+//     })
+//   } catch (error) {
+//     console.error('获取班级统计失败:', error)
+//     res.status(500).json({
+//       success: false,
+//       message: '获取班级统计失败',
+//       error: error instanceof Error ? error.message : '未知错误'
+//     })
+//   }
+// }

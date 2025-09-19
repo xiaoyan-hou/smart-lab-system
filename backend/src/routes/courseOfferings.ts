@@ -60,13 +60,13 @@ const classRelationValidation = [
 ]
 
 // 公开路由 - 获取开课信息列表
-router.get('/', courseOfferingController.getAllCourseOfferings)
+// router.get('/', courseOfferingController.getAllCourseOfferings)
 
 // 公开路由 - 获取单个开课信息详情
 router.get('/:id', courseOfferingController.getCourseOfferingById)
 
 // 公开路由 - 获取开课信息的班级列表
-router.get('/:id/classes', courseOfferingController.getCourseOfferingClasses)
+// router.get('/:id/classes', courseOfferingController.getCourseOfferingClasses)
 
 // 需要认证的路由
 router.use(authenticateToken)
@@ -81,7 +81,7 @@ router.put('/:id', courseOfferingValidation, courseOfferingController.updateCour
 router.delete('/:id', courseOfferingController.deleteCourseOffering)
 
 // 添加班级到开课信息
-router.post('/:id/classes', classRelationValidation, courseOfferingController.addClassToCourseOffering)
+// router.post('/:id/classes', classRelationValidation, courseOfferingController.addClassToCourseOffering)
 
 // 从开课信息移除班级
 router.delete('/:id/classes/:classId', courseOfferingController.removeClassFromCourseOffering)

@@ -9,9 +9,11 @@ import {
   SettingOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
-  BookOutlined,
   ExperimentOutlined,
-  ToolOutlined
+  ToolOutlined,
+  BankOutlined,
+  HomeOutlined,
+  ReadOutlined
 } from '@ant-design/icons'
 import { Avatar, Dropdown, Menu, Space } from 'antd'
 
@@ -32,6 +34,28 @@ const menuData: MenuDataItem[] = [
     icon: <DashboardOutlined />,
   },
   {
+    path: '/basic-data',
+    name: '基础数据',
+    icon: <BankOutlined />,
+    children: [
+      {
+        path: '/building-management',
+        name: '教学楼管理',
+        icon: <HomeOutlined />,
+      },
+      {
+        path: '/lab-room-management',
+        name: '教室/实验室/机房管理',
+        icon: <ExperimentOutlined />,
+      },
+      {
+        path: '/course-management',
+        name: '课程管理',
+        icon: <ReadOutlined />,
+      },
+    ],
+  },
+  {
     path: '/course-schedule',
     name: '排课管理',
     icon: <CalendarOutlined />,
@@ -49,11 +73,6 @@ const menuData: MenuDataItem[] = [
         name: '课表查询',
       },
     ],
-  },
-  {
-    path: '/course-management',
-    name: '课程管理',
-    icon: <BookOutlined />,
   },
   {
     path: '/lab-management',

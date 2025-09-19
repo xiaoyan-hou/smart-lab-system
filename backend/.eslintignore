@@ -1,0 +1,46 @@
+# 依赖包
+node_modules/
+
+# 构建输出
+dist/
+build/
+
+# 日志文件
+*.log
+logs/
+
+# 环境变量
+.env
+.env.local
+.env.production
+
+# 数据库文件
+*.sql
+*.db
+
+# 临时文件
+.tmp/
+temp/
+
+# 测试覆盖率
+coverage/
+.nyc_output/
+
+# IDE 配置文件
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# 操作系统文件
+.DS_Store
+Thumbs.db
+
+# 打包文件
+*.tgz
+*.tar.gz
+
+# 证书文件
+*.pem
+*.key
+*.crt

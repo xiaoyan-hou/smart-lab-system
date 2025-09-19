@@ -58,7 +58,7 @@ router.get('/', classController.getAllClasses)
 router.get('/:id', classController.getClassById)
 
 // 公开路由 - 获取班级统计信息
-router.get('/stats/classes', classController.getClassStats)
+// router.get('/stats/classes', classController.getClassStats)
 
 // 需要认证的路由
 router.use(authenticateToken)

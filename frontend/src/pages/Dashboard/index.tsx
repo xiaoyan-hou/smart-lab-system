@@ -1,10 +1,9 @@
 import React from 'react'
-import { Card, Col, Row, Statistic } from 'antd'
-import { 
-  UserOutlined, 
-  CalendarOutlined, 
-  BookOutlined,
-  CheckCircleOutlined 
+import { Card, Row, Col, Statistic } from 'antd'
+import {
+  CalendarOutlined,
+  CheckCircleOutlined,
+  UserOutlined
 } from '@ant-design/icons'
 
 const Dashboard: React.FC = () => {

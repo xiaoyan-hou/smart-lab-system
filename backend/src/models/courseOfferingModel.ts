@@ -65,20 +65,20 @@ export const createCourseOffering = async (offeringData: CreateCourseOfferingDat
     students_count, 
     notes, 
     hours_per_week = 0 
-  } = offeringData
+  } = offeringData;
   
-  const result = await query<OkPacket>(
+  const result = await query(
     `INSERT INTO course_offerings 
      (course_id, semester, teacher_id, equipment_id, lab_hours, groups_per_equipment, group_size, students_count, notes, hours_per_week) 
      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
     [course_id, semester, teacher_id, equipment_id, lab_hours, groups_per_equipment, group_size, students_count, notes, hours_per_week]
-  )
+  ) as OkPacket;
   
-  return result.insertId
-}
+  return result.insertId;
+};
 
 export const getAllCourseOfferings = async (): Promise<CourseOfferingWithDetails[]> => {
-  const results = await query<RowDataPacket[]>(
+  const results = await query(
     `SELECT 
        co.*,
        c.code as course_code,
@@ -91,13 +91,13 @@ export const getAllCourseOfferings = async (): Promise<CourseOfferingWithDetails
      LEFT JOIN courses c ON co.course_id = c.id
      LEFT JOIN teachers t ON co.teacher_id = t.id
      ORDER BY co.created_at DESC`
-  )
+  ) as RowDataPacket[];
   
-  return results as CourseOfferingWithDetails[]
-}
+  return results as CourseOfferingWithDetails[];
+};
 
 export const getCourseOfferingById = async (id: number): Promise<CourseOfferingWithDetails | null> => {
-  const results = await query<RowDataPacket[]>(
+  const results = await query(
     `SELECT 
        co.*,
        c.code as course_code,
@@ -111,13 +111,13 @@ export const getCourseOfferingById = async (id: number): Promise<CourseOfferingW
      LEFT JOIN teachers t ON co.teacher_id = t.id
      WHERE co.id = ?`,
     [id]
-  )
+  ) as RowDataPacket[];
   
-  return results.length > 0 ? (results[0] as CourseOfferingWithDetails) : null
-}
+  return results.length > 0 ? (results[0] as CourseOfferingWithDetails) : null;
+};
 
 export const getCourseOfferingsBySemester = async (semester: string): Promise<CourseOfferingWithDetails[]> => {
-  const results = await query<RowDataPacket[]>(
+  const results = await query(
     `SELECT 
        co.*,
        c.code as course_code,
@@ -132,13 +132,13 @@ export const getCourseOfferingsBySemester = async (semester: string): Promise<Co
      WHERE co.semester = ?
      ORDER BY co.created_at DESC`,
     [semester]
-  )
+  ) as RowDataPacket[];
   
-  return results as CourseOfferingWithDetails[]
-}
+  return results as CourseOfferingWithDetails[];
+};
 
 export const getCourseOfferingsByTeacher = async (teacher_id: number): Promise<CourseOfferingWithDetails[]> => {
-  const results = await query<RowDataPacket[]>(
+  const results = await query(
     `SELECT 
        co.*,
        c.code as course_code,
@@ -153,13 +153,13 @@ export const getCourseOfferingsByTeacher = async (teacher_id: number): Promise<C
      WHERE co.teacher_id = ?
      ORDER BY co.semester DESC, co.created_at DESC`,
     [teacher_id]
-  )
+  ) as RowDataPacket[];
   
-  return results as CourseOfferingWithDetails[]
-}
+  return results as CourseOfferingWithDetails[];
+};
 
 export const getCourseOfferingsByCourse = async (course_id: number): Promise<CourseOfferingWithDetails[]> => {
-  const results = await query<RowDataPacket[]>(
+  const results = await query(
     `SELECT 
        co.*,
        c.code as course_code,
@@ -174,10 +174,10 @@ export const getCourseOfferingsByCourse = async (course_id: number): Promise<Cou
      WHERE co.course_id = ?
      ORDER BY co.semester DESC, co.created_at DESC`,
     [course_id]
-  )
+  ) as RowDataPacket[];
   
-  return results as CourseOfferingWithDetails[]
-}
+  return results as CourseOfferingWithDetails[];
+};
 
 export const updateCourseOffering = async (id: number, offeringData: UpdateCourseOfferingData): Promise<boolean> => {
   const fields = []
@@ -196,25 +196,25 @@ export const updateCourseOffering = async (id: number, offeringData: UpdateCours
   
   values.push(id)
   
-  const result = await query<OkPacket>(
+  const result = await query(
     `UPDATE course_offerings SET ${fields.join(', ')} WHERE id = ?`,
     values
-  )
+  ) as OkPacket;
   
-  return result.affectedRows > 0
-}
+  return result.affectedRows > 0;
+};
 
 export const deleteCourseOffering = async (id: number): Promise<boolean> => {
-  const result = await query<OkPacket>(
+  const result = await query(
     'DELETE FROM course_offerings WHERE id = ?',
     [id]
-  )
+  ) as OkPacket;
   
-  return result.affectedRows > 0
-}
+  return result.affectedRows > 0;
+};
 
 export const searchCourseOfferings = async (keyword: string): Promise<CourseOfferingWithDetails[]> => {
-  const results = await query<RowDataPacket[]>(
+  const results = await query(
     `SELECT 
        co.*,
        c.code as course_code,
@@ -229,7 +229,7 @@ export const searchCourseOfferings = async (keyword: string): Promise<CourseOffe
      WHERE c.code LIKE ? OR c.name LIKE ? OR co.semester LIKE ? OR t.name LIKE ?
      ORDER BY co.created_at DESC`,
     [`%${keyword}%`, `%${keyword}%`, `%${keyword}%`, `%${keyword}%`]
-  )
+  ) as RowDataPacket[];
   
-  return results as CourseOfferingWithDetails[]
+  return results as CourseOfferingWithDetails[];
 }
